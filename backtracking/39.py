@@ -1,35 +1,34 @@
-class Solution(object):
+class Solution:
     def combinationSum(self, candidates, target):
         """
         :type candidates: List[int]
         :type target: int
         :rtype: List[List[int]]
         """
-        sorted_candidates = sorted(candidates)
-        return self.getSolution(sorted_candidates, target)
+        res = []
 
-    def getSolution(self, candidates, target):
-        """
-        递归
-        """
-        solution_set = []
-        if target in candidates:
-            solution_set.append([target])
+        # input is a set
+        # distinct_candidates = set(candidates)
 
-        # remove all the elements that bigger than target or equal with target
-        candidates = filter(lambda x: x < target, candidates)
-        candidates = list(candidates)
 
-        for i in range(len(candidates)):
-            print("current search by "+str(candidates[i])+", and go into deeper layer with target "+str(target - candidates[i]))
-            sub_solutions = self.getSolution(candidates[i:], target - candidates[i])
-            print("return from deeper layer with solution:")
-            print(sub_solutions)
-            for sub in sub_solutions:
-                list_sub = sub
-                list_sub.append(candidates[i])
-                solution_set.append(list_sub)
-        return solution_set
+        # assume that candidates is already sorted
 
-s=Solution()
-print(s.combinationSum([1,2],3))
+        def deeper(path, target, start_position):
+            # print(path, target, start_position)
+            if target == 0:
+                res.append(path)
+                return
+
+
+            for i in range(start_position, len(candidates)):
+                if target - candidates[i] >= 0:
+                    deeper(path + [candidates[i]], target - candidates[i], i)
+
+        deeper([], target, 0)
+
+        return res
+
+s = Solution()
+res = s.combinationSum([1,2,3,6,7,9,10,11,12,133,14,15,16], 60)
+
+print(len(res))
