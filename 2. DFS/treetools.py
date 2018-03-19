@@ -3,6 +3,7 @@ class TreeNode:
         self.val = x
         self.left = None
         self.right = None
+        self.next = None
 
 def stringToTreeNode(input):
     input = input.strip()
