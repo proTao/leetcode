@@ -6,6 +6,7 @@ class Solution(object):
         :rtype: int
         """
         diff = x^y
+
         count = 0
         while diff:
             # print(diff)
