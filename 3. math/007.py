@@ -14,6 +14,8 @@ class Solution:
         res = int(s)*(-1) if flag else int(s)
         if res>=2**31 or res<0-2**31:
             return 0
+        else:
+            return res
         
 
 print(Solution().reverse(1534236469))
