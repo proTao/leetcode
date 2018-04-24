@@ -39,18 +39,64 @@ class Solution1:
                 return False
         return True
 
-
-def Manacher(s):
-    expand_s = "#" + "#".join([i for i in s]) + "#"
-    maxlen = [1]
-    for i in range(1, len(expand_s)):
+def MySolution():
+    def caller():
+        pass
+    def countSubstrings(s):
+        # Manacher Start
+        expand_s = "%#" + "#".join([i for i in s]) + "#&"
+        radius = [1 for i in range(len(expand_s))]
         most_right = 0
-        for j in range(0,i):
-            most_right = j + maxlen[j] if j + maxlen[j] > most_right else most_right
+        pivot = 0
+        for i in range(2, len(expand_s)-2):
+            if i <= most_right:
+                # 下面注释那一段化简为这一句, 化简之前的性能只能打败百分之四十多,化简之后达到了应有的性能
+                radius[i] = min(radius[2*pivot-i], radius[pivot] + pivot - i)
 
-    print(expand_s)
+                """
+                sym_i = pivot - (i - pivot)
+                if radius[sym_i] < radius[pivot] - (pivot - sym_i):
+                    radius[i] = radius[sym_i]
+                    continue
+                elif radius[sym_i] > radius[pivot] - (pivot - sym_i):
+                    radius[i] = radius[pivot] - (pivot - sym_i)
+                    continue
+                else:
+                    radius[i] = radius[sym_i]
+                """
+                
+            while expand_s[i+radius[i]] == expand_s[i-radius[i]]:
+                radius[i] += 1
 
-# s = Solution()
-# string = "ababaa"
-# print(s.countSubstrings(string))
-Manacher("123")
+            if i + radius[i] - 1 > most_right:
+                most_right = i + radius[i] - 1
+                pivot = i
+
+            
+
+        return sum(int(radius[i]/2) for i in range(len(radius)))
+
+    caller.countSubstrings = countSubstrings
+    return caller
+
+class Solution:
+    def countSubstrings(self, S):
+        def manachers(S):
+            A = '@#' + '#'.join(S) + '#$'
+            Z = [0] * len(A)
+            center = right = 0
+            for i in range(1, len(A) - 1):
+                if i < right:
+                    Z[i] = min(right - i, Z[2 * center - i])
+                while A[i + Z[i] + 1] == A[i - Z[i] - 1]:
+                    Z[i] += 1
+                if i + Z[i] > right:
+                    center, right = i, i + Z[i]
+            return Z
+
+        return sum(int((v+1)/2) for v in manachers(S))
+
+
+s = MySolution()
+string = "aababa"
+print(s.countSubstrings(string))
