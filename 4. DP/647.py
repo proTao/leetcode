@@ -3,8 +3,8 @@ from math import ceil
 class Solution1:
     def countSubstrings(self, s):
         """
-        :type s: str
-        :rtype: int
+ type s: str
+ rtype: int
         """
         self.s = s
         self.impossible_pivot = set()
@@ -79,7 +79,7 @@ def MySolution():
     caller.countSubstrings = countSubstrings
     return caller
 
-class Solution:
+class SolutionN:
     def countSubstrings(self, S):
         def manachers(S):
             A = '@#' + '#'.join(S) + '#$'
@@ -95,6 +95,19 @@ class Solution:
             return Z
 
         return sum(int((v+1)/2) for v in manachers(S))
+
+class SolutionN2(object):
+     def countSubstrings(self, S):
+         N = len(S)         
+         ans = 0
+         for center in range(2*N - 1):
+             left = int(center / 2)
+             right = left + center % 2
+             while left >= 0 and right < N and S[left] == S[right]:
+                 ans += 1
+                 left -= 1
+                 right += 1
+         return ans
 
 
 s = MySolution()
