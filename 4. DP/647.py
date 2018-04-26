@@ -82,7 +82,7 @@ def MySolution():
 class SolutionN:
     def countSubstrings(self, S):
         def manachers(S):
-            A = '@#' + '#'.join(S) + '#$'
+            A = '!#' + '#'.join(S) + '#?'
             Z = [0] * len(A)
             center = right = 0
             for i in range(1, len(A) - 1):

@@ -27,5 +27,5 @@ def Solution():
     return caller
 
 s = Solution()
-cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
+cost = [1, 100, 1, 1, 1, 100]
 print(s.minCostClimbingStairs(cost))
