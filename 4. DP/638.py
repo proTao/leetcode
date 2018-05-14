@@ -38,6 +38,7 @@ class Solution:
         :rtype: int
         """
         def deeper(k, needs, i=0):
+            # i 
             print("\t"*i, k, needs)
             if k == 0:
                 return sum(a*b for a,b in zip(needs, prices))
