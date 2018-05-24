@@ -92,6 +92,7 @@ class SolutionN:
                     Z[i] += 1
                 if i + Z[i] > right:
                     center, right = i, i + Z[i]
+            print(Z)
             return Z
 
         return sum(int((v+1)/2) for v in manachers(S))
@@ -110,6 +111,6 @@ class SolutionN2(object):
          return ans
 
 
-s = MySolution()
+s = SolutionN()
 string = "aababa"
 print(s.countSubstrings(string))
