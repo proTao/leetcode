@@ -4,6 +4,15 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
+        if len(nums) == 1:
+            return nums[0]
+        return max(self.rob_198(nums[:-1]), self.rob_198(nums[1:]))
+
+    def rob_198(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
         if len(nums) == 0:
             return 0
 
@@ -18,9 +27,9 @@ class Solution:
         i = 2
 
         while i < len(nums):
-            print(f_1, f_2)
+            # print(f_1, f_2)
             f_1, f_2, i = max(f_1, f_2 + nums[i]), f_1, i+1
 
         return f_1
 
-print(Solution().rob([5,1,3,7,4,2]))
+print(Solution().rob([1,2,3,1]))
