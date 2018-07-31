@@ -57,11 +57,15 @@ class IndexMinHeap(MinHeap):
         return index in self.qp
 
     def insert(self, index, key):
+        """
+        index: name or index
+        key: weight, the value used to compare in the heap
+        """
         print("IndexMinHeap Insert", index, "with weight", key)
         self.N += 1
-        self.qp[index] = self.N
-        self.pq.append(index)
-        self.keys[index] = key
+        self.pq.append(index)    # position -> index
+        self.qp[index] = self.N  # index -> position
+        self.keys[index] = key # index -> weight
         self._swim(self.N)
 
     def delMin(self):
@@ -125,6 +129,7 @@ if __name__ == "__main__":
     print(a.keyOf('a'))
 
 
+
     a.change('a', 1)
     a.show()
     print(a.keyOf('d'))
@@ -135,3 +140,9 @@ if __name__ == "__main__":
     print("t", t)
     a.show()
     print(a.size())
+    print(a.keyOf('a'))
+
+    print("delete the nearlest node")
+    print(a.delMin())
+
+#https://algs4.cs.princeton.edu/24pq/IndexMinPQ.java.html
