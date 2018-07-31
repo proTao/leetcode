@@ -6,11 +6,11 @@ class MinHeap:
     def isEmpty(self):
         return self.N == 0
 
-    def size(size):
+    def size(self):
         return self.N
 
     def insert(self, key):
-        print("IndexMinHeap Insert", index)
+        print("IndexMinHeap Insert", key)
         self.N += 1
         self.pq.append(key)
         self._swim(self.N)
@@ -54,7 +54,7 @@ class IndexMinHeap(MinHeap):
 
 
     def contains(self, index):
-        return index in qp
+        return index in self.qp
 
     def insert(self, index, key):
         print("IndexMinHeap Insert", index, "with weight", key)
@@ -83,17 +83,17 @@ class IndexMinHeap(MinHeap):
         return self.keys[index]
 
     def delete(self, index):
-        i = self.qp[index];
-        self.n -= 1
-        self._exch(i, self.n);
-        self._swim(i);
-        self._sink(i);
-        self.keys[index] = null;
-        self.qp[index] = -1;
+        i = self.qp[index]
+        self.N -= 1
+        self._exch(i, self.N)
+        self._swim(i)
+        self._sink(i)
+        del self.keys[index]
+        self.qp[index] = -1
 
     def show(self):
-        print("最近节点", a.minIndex())
-        print("最近距离", a.minWeight())
+        print("最近节点", self.minIndex())
+        print("最近距离", self.minWeight())
         print([(i, self.keys[i]) for i in self.pq[1:]])
         print("pq", self.pq)
         print("qp", self.qp)
@@ -105,7 +105,7 @@ class IndexMinHeap(MinHeap):
     def _exch(self, i, j):
         self.pq[i], self.pq[j] = self.pq[j], self.pq[i]
         self.qp[self.pq[i]] = i
-        self.qp[self.pq[j]] = j;
+        self.qp[self.pq[j]] = j
 
 
 
@@ -127,4 +127,11 @@ if __name__ == "__main__":
 
     a.change('a', 1)
     a.show()
-    print(a.keyOf('a'))
+    print(a.keyOf('d'))
+
+    print(a.size())
+
+    t = a.delMin()
+    print("t", t)
+    a.show()
+    print(a.size())
