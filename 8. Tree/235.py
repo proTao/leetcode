@@ -23,26 +23,23 @@ class Solution:
                 self.q_path = path.copy()
                 self.find_q = True
             if curr.left:
-                searchPandQ(path+[curr.left])
+                searchPandQ(path + [curr.left])
             if curr.right:
-                searchPandQ(path+[curr.right])
+                searchPandQ(path + [curr.right])
+
         searchPandQ([root])
         print(self.p_path)
         print(self.q_path)
         min_l = min(len(self.p_path), len(self.q_path))
-        if self.p_path[min_l-1] is self.q_path[min_l-1]:
-            return self.q_path[min_l-1]
+        if self.p_path[min_l - 1] is self.q_path[min_l - 1]:
+            return self.q_path[min_l - 1]
         for i in range(min_l):
             print(i)
             if not self.p_path[i] is self.q_path[i]:
                 break
-        return self.q_path[i-1]
+        return self.q_path[i - 1]
+
 
 t = stringToTreeNode("[6,2,8,0,4,7,9,null,null,3,5]")
 prettyPrintTree(t)
 print(Solution().lowestCommonAncestor(t, t.left, t.left.right))
-
-
-
-
-        
