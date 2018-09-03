@@ -1,5 +1,3 @@
-from treetools import *
-
 class Solution:
     def averageOfLevels(self, root):
         """
@@ -22,7 +20,3 @@ class Solution:
             current_layer = layer1 if trigger else layer0
             next_layer = layer0 if trigger else layer1
         return res
-
-t = stringToTreeNode("[3,9,20,null,null,15,7]")
-prettyPrintTree(t)
-print(Solution().averageOfLevels(t))
