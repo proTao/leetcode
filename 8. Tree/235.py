@@ -1,6 +1,5 @@
 from treetools import *
 
-
 class Solution:
     def lowestCommonAncestor(self, root, p, q):
         """
@@ -13,7 +12,6 @@ class Solution:
         self.find_q = False
         self.p_path = None
         self.q_path = None
-
         def searchPandQ(path):
             curr = path[-1]
             if self.find_p and self.find_q:
