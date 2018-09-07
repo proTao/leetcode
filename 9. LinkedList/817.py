@@ -23,8 +23,3 @@ class Solution:
 a = stringToListNode("[1,2,3,4,5]")
 G = [1,2,3,4]
 print(Solution().numComponents(a, G))
-
-for i in range(10):
-    a = 10
-
-print(a)

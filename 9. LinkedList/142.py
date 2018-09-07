@@ -23,5 +23,5 @@ class Solution(object):
         return slow
 
 a = stringToListNode("[1,2,3,4,5]")
-# a.next.next.next.next = a.next
-print(Solution().detectCycle(a))
+a.next.next.next.next = a.next
+print(Solution().detectCycle(a).val)
