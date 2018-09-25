@@ -38,29 +38,26 @@ def stringToTreeNode(input):
             nodeQueue.append(node.right)
     return root
 
-def BSTIterator(root):
-    stack = []
-    curr = root
-    def next():
-        nonlocal curr
-        while curr or stack:
-            while curr:
-                stack.append(curr)
-                curr = curr.left
-            curr = stack.pop()
-            res = curr.val
-            curr = curr.right
+class BSTIterator():
+    def __init__(self, root):
+        self.stack = []
+        self.curr = root
+    def next(self):
+        while self.curr or self.stack:
+            while self.curr:
+                self.stack.append(self.curr)
+                self.curr = self.curr.left
+            self.curr = self.stack.pop()
+            res = self.curr.val
+            self.curr = self.curr.right
             return res
-    def hasNext():
-        return not curr is None or len(stack) > 0
-    def core():
-        pass
-    core.__call__ = None
-    core.next = next
-    core.hasNext = hasNext
-    return core
-
-
+    def hasNext(self):
+        return not self.curr is None or len(self.stack) > 0
+    
+    
+    
+    
+    
         
 
 # Your BSTIterator will be called like this:
