@@ -1,0 +1,59 @@
+from treetools import *
+None_hash = 812361
+left_coef = 129379
+right_coef = 864111
+current_coef = 123981
+class Solution:
+    def findDuplicateSubtrees(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[TreeNode]
+        """
+        self.hashset = set([])
+        self.used = set([])
+        # self.used.add(None_hash)
+        self.res = set()
+        def hashTree(root):
+            if root is None:
+                return None_hash
+            left_hash = hashTree(root.left)
+            right_hash = hashTree(root.right)
+            current_hash = (root.val * current_coef + left_hash * left_coef + right_hash * right_coef)
+            if current_hash in self.hashset:
+                if current_hash not in self.used:
+                    self.res.add(root)
+                    self.used.add(current_hash)
+            else:
+                self.hashset.add(current_hash)
+            return current_hash
+        hashTree(root)
+        # print(self.hashset)
+        return list(self.res)
+
+import collections
+
+class Solution1(object):
+    def findDuplicateSubtrees(self, root):
+        trees = collections.defaultdict()
+        trees.default_factory = trees.__len__
+        count = collections.Counter()
+        ans = []
+        def lookup(node):
+            if node:
+                uid = trees[node.val, lookup(node.left), lookup(node.right)]
+                count[uid] += 1
+                if count[uid] == 2:
+                    ans.append(node)
+                return uid
+        lookup(root)
+        # print(trees)
+        return ans
+t = stringToTreeNode("[94,93,95,92,94,96,94,93,93,93,95,97,97,95,95,92,94,94,94,92,94,94,96,98,98,96,98,96,94,94,96,91,91,93,95,93,95,95,95,91,93,93,95,95,93,97,97,97,97,97,99,95,97,97,99,95,97,93,95,null,95,95,95,90,92,90,92,92,94,94,96,94,null,96,94,94,94,96,null,90,92,null,null,94,null,94,96,null,null,null,null,96,null,null,null,96,98,96,96,96,96,100,100,94,94,98,96,96,96,98,100,94,96,98,98,94,94,94,96,null,null,94,96,94,94,89,91,null,93,91,91,91,91,null,91,null,null,null,null,null,null,93,95,95,95,93,95,null,null,95,93,null,null,null,null,null,93,null,95,93,95,null,97,95,97,95,95,97,99,97,97,null,97,95,null,95,97,101,101,99,99,95,null,93,null,97,99,95,97,97,97,95,95,99,97,101,99,93,93,95,97,97,99,99,null,null,null,null,95,95,95,97,95,null,null,95,null,null,95,null,null,88,88,92,null,null,94,90,92,92,92,90,90,90,92,90,92,null,null,null,94,94,96,null,null,null,94,null,null,null,null,94,null,null,null,94,null,null,null,96,null,96,96,94,94,null,null,null,96,96,94,96,96,100,100,96,98,96,96,null,96,94,null,94,96,null,null,100,102,100,null,null,100,98,98,94,96,92,94,96,98,98,98,94,94,96,98,96,98,96,98,null,96,96,94,98,98,96,98,100,102,98,null,92,94,92,94,96,null,null,null,96,98,98,100,100,100,94,96,94,null,null,96,96,98,null,null,null,null,96,94,null,null,87,89,91,null,null,null,89,89,null,91,93,93,null,93,89,91,89,91,91,89,93,null,91,null,null,null,null,93,null,null,null,null,null,null,null,null,null,null,null,null,null,95,97,null,95,null,null,95,95,97,95,97,95,null,95,95,97,97,101,101,101,101,95,95,97,99,95,null,95,97,97,null,95,null,93,95,null,null,null,null,101,103,99,null,null,101,null,null,null,null,null,93,97,97,null,91,null,95,97,97,97,null,97,null,97,99,95,95,93,null,null,97,97,null,95,null,null,99,95,97,97,99,95,97,95,97,93,95,99,97,97,99,95,97,97,99,99,99,101,101,null,99,91,null,null,null,null,null,null,93,null,97,95,95,97,null,97,97,101,99,null,99,99,null,null,null,97,97,null,null,null,null,97,97,null,null,null,95,null,null,null,null,null,null,null,null,null,null,null,null,92,null,null,null,null,null,null,94,88,null,null,null,90,90,null,null,null,null,88,88,null,null,null,90,null,null,null,null,null,null,null,null,96,96,96,96,96,96,96,94,null,null,96,96,94,null,94,96,96,null,98,96,100,102,null,null,102,102,null,100,94,96,94,null,96,98,98,null,94,96,96,null,98,null,null,null,96,94,null,null,null,94,null,null,null,104,null,100,null,102,null,null,96,96,96,96,null,92,null,96,null,96,null,null,96,null,null,null,null,null,98,null,null,null,94,94,null,null,null,98,null,96,null,null,100,null,96,96,96,98,96,98,98,100,94,null,null,null,null,null,null,98,94,92,96,96,null,100,96,null,98,null,98,100,94,94,96,98,null,96,98,100,98,98,100,100,102,100,100,null,null,null,null,92,92,null,null,null,96,94,null,96,98,98,96,98,96,null,102,null,98,null,null,null,100,100,null,null,null,null,96,98,96,98,null,94,null,null,95,null,87,null,null,91,91,91,87,null,null,89,91,null,null,null,null,null,null,null,null,null,97,95,95,97,null,null,null,null,97,95,null,null,93,null,95,93,null,null,95,null,97,99,95,95,99,null,null,103,101,null,null,103,null,99,95,95,null,95,95,93,null,97,null,null,null,null,93,95,95,97,null,null,null,null,97,null,null,null,null,null,null,null,101,null,101,103,97,97,95,null,null,null,null,97,null,null,95,null,null,null,null,97,null,null,93,93,null,null,97,null,null,null,99,null,95,95,null,null,97,95,null,null,95,null,97,null,97,99,99,null,null,null,null,99,93,95,91,93,97,97,95,95,101,99,null,null,null,null,99,null,null,null,93,null,93,95,97,95,97,99,95,95,97,99,99,101,97,null,null,99,99,99,null,null,103,103,101,101,null,101,null,93,null,91,null,95,null,95,null,97,99,99,97,99,97,97,97,null,95,95,null,null,null,97,101,99,99,101,null,null,null,null,95,null,null,null,93,null,null,null,null,88,null,null,null,null,null,null,null,null,88,null,90,92,null,null,94,96,null,null,96,96,98,null,96,96,null,null,94,96,92,null,94,null,96,98,100,100,null,96,94,null,null,null,102,null,null,null,null,102,null,null,94,94,94,96,null,96,null,null,92,94,96,null,94,null,94,94,null,96,null,98,null,null,null,100,100,102,null,null,98,null,96,98,null,null,null,null,null,null,null,null,94,94,null,94,null,null,null,null,94,96,96,96,96,96,null,96,null,null,96,96,98,98,null,100,98,100,null,null,null,94,94,96,92,92,92,94,null,98,null,98,94,96,94,96,null,null,null,100,null,null,92,null,92,94,null,96,98,96,96,null,98,98,98,null,96,null,96,96,null,null,null,100,98,null,null,100,96,98,null,null,98,98,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,96,96,98,null,null,100,100,96,98,100,98,null,null,96,98,98,98,96,null,94,null,null,null,null,100,98,null,100,null,null,102,null,null,null,null,null,null,87,null,null,null,null,null,95,95,null,97,null,null,null,97,97,null,95,97,95,97,95,null,null,null,null,null,null,null,95,null,null,null,null,null,null,101,97,null,93,null,null,null,null,103,null,null,95,null,95,93,95,95,95,null,null,93,null,93,null,null,null,null,95,95,null,null,95,97,97,99,null,null,null,null,103,null,null,null,95,95,99,null,93,null,null,null,null,null,93,95,97,95,95,97,null,97,97,null,95,null,null,null,null,null,95,97,99,97,97,99,null,null,99,97,101,null,95,null,null,93,97,97,91,93,91,93,93,91,93,93,null,null,99,97,93,93,95,97,93,null,null,95,null,null,null,93,91,93,95,95,95,97,null,null,null,null,null,null,99,null,null,null,null,null,97,null,95,null,null,null,null,null,99,null,null,null,95,95,null,97,97,null,99,99,95,null,null,null,null,null,null,101,99,null,95,95,null,null,null,null,97,99,null,95,99,null,97,null,null,null,97,null,null,null,101,null,99,null,null,null,103,null,null,null,null,null,94,94,null,null,null,null,null,98,94,94,null,null,null,null,96,null,96,null,null,96,null,102,null,98,null,null,null,null,null,null,null,null,94,94,null,94,96,94,null,null,null,null,null,null,null,94,94,null,null,null,null,null,null,null,null,100,null,null,96,94,null,96,null,null,null,null,94,null,null,null,null,96,null,null,94,null,null,96,null,null,96,null,null,null,null,null,96,null,null,null,96,96,null,98,null,null,98,null,null,null,null,102,null,null,92,94,96,null,96,96,null,90,null,null,92,92,null,92,92,null,null,92,null,92,94,92,null,100,96,null,94,null,null,94,96,null,98,null,92,94,94,96,null,null,92,90,null,null,94,null,94,96,94,96,98,96,null,null,null,null,94,96,null,null,94,null,94,94,null,null,null,98,98,null,null,100,null,null,null,102,null,null,96,null,null,96,null,null,null,null,96,null,100,null,null,null,null,null,null,102,null,null,104,104,null,null,null,null,null,97,null,95,95,null,95,97,null,null,95,null,null,103,null,97,95,95,null,null,93,93,null,null,null,95,null,null,null,93,null,null,97,null,93,null,null,null,null,null,95,null,null,null,null,null,null,null,95,97,95,null,95,null,97,99,null,null,null,null,91,93,null,95,null,null,null,97,95,null,89,null,null,91,null,null,null,null,null,null,null,null,91,null,93,95,93,91,null,null,95,null,93,null,95,null,null,null,null,null,null,93,null,null,null,95,null,null,null,null,89,null,null,95,null,null,95,null,95,93,null,null,null,97,95,null,null,null,95,null,null,null,null,95,null,95,99,null,97,null,null,null,null,103,95,null,95,null,null,97,null,null,null,null,null,null,null,null,null,null,null,96,94,null,null,null,98,null,null,null,104,null,null,null,null,null,null,null,null,null,94,94,null,null,null,94,null,98,94,null,null,96,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,94,null,null,null,null,null,null,null,null,null,92,null,null,null,null,94,null,94,null,92,null,94,92,94,94,96,94,92,null,null,null,null,94,94,null,null,96,null,92,null,96,null,null,null,null,null,null,null,94,null,null,null,96,null,null,102,null,null,null,null,null,null,null,null,null,null,null,null,null,null,93,null,93,null,null,null,99,null,null,null,null,null,null,null,null,null,null,null,null,null,null,91,null,null,null,91,null,null,null,null,null,97,null,null,null,91,null,95,null,null,null,null,null,null,null,97,null,null,null,null,101,null,94,null,null,null,null,null,null,92,null,null,null,96,null,null,94,null,null,96,null,null,93,null,null,null,null,null,null,null,97]")
+# t = stringToTreeNode("[1,1,1,1,1,1,1,1,1,null,null,1,1,1]")
+# prettyPrintTree(t)
+print(len(Solution().findDuplicateSubtrees(t)))
+
+# null = None
+# a = [[97,96,96,null,97,95],[93,94],[94,null,95],[95,96,null,97],[96,95],[90,89],[92,null,93],[98,97,99],[95,96,null,null,97],[94,null,93],[93,92],[91,null,92],[99,98,null,99],[99,100],[104],[96],[96,95,97,96,null,98],[101,null,102],[95,94,96],[87],[95],[100,101,null,null,102],[88],[93,null,94],[94],[88,87],[103],[98,97,99,null,null,null,100],[92],[91,92],[94,95],[99,98],[90],[96,95,97],[98,null,99],[98,99],[101,null,100],[95,96],[96,null,97],[92,null,91,null,92],[97,null,96,97],[89],[95,94],[98,null,97],[97],[97,null,98,null,97],[98,97],[102],[92,null,91],[95,94,96,null,null,95],[97,96],[96,null,95],[97,96,96,null,null,null,97],[100,99],[94,null,95,94],[94,null,95,null,96,95],[102,101],[95,94,null,93],[100,null,99],[99,null,100],[98],[95,96,96],[100],[101],[96,97],[95,null,94],[95,null,96],[97,null,96],[93,null,94,95],[94,93,95,null,null,null,94],[99],[91],[94,93],[96,null,97,null,96,97],[97,null,98,99],[93],[97,98],[95,null,96,95],[97,96,98]]
+# b = [[93,null,94],[95,94,96],[93,94],[94,null,95],[95,96,null,null,97],[95,null,96],[95,null,96,95],[97,null,96],[96,null,97,null,96,97],[96,null,95],[96,97],[95,96],[97],[88],[94],[94,null,93],[96],[94,null,95,null,96,95],[102],[97,96,98],[92],[94,95],[88,87],[98,97],[100,99],[100,null,99],[87],[89],[91],[91,92],[93],[93,null,94,95],[98,null,99],[95,96,96],[101],[99,98],[97,98],[97,96,96,null,null,null,97],[95,94,null,93],[101,null,100],[103],[99],[95,96,null,97],[99,98,null,99],[90],[96,null,97],[98],[98,99],[98,97,99,null,null,null,100],[95],[96,95,97,96,null,98],[97,null,98,null,97],[99,100],[95,94,96,null,null,95],[97,null,98,99],[101,null,102],[92,null,93],[98,null,97],[96,95],[90,89],[92,null,91],[94,93,95,null,null,null,94],[100],[100,101,null,null,102],[92,null,91,null,92],[97,96],[93,92],[91,null,92],[99,null,100],[95,94],[96,95,97],[98,97,99],[94,null,95,94],[102,101],[104],[97,null,96,97],[95,null,94],[94,93]]
+# print(len(a), len(b))
