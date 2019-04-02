@@ -1,31 +1,38 @@
 from linkedtools import ListNode, stringToListNode, prettyPrintLinkedList
 class Solution:
     def addTwoNumbers(self, l1, l2):
-        """
-        :type l1: ListNode
-        :type l2: ListNode
-        :rtype: ListNode
-        """
-        num1 = 0
-        c = l1
-        while c:
-            num1 = num1 * 10 + c.val
-            c = c.next
-        num2 = 0
-        c = l2
-        while c:
-            num2 = num2 * 10 + c.val
-            c = c.next
-        res = str(num1 + num2)
-        head = ListNode(int(res[0]))
-        c = head
-        for i in res[1:]:
-            newnode = ListNode(int(i))
-            c.next = newnode
-            c = newnode
-        return head
+        headnode = ListNode(0)
+        p = headnode
+        p1, p2 = l1, l2
+        carry = 0
 
-a = stringToListNode("[0]")
+        # 处理等长部分
+        while p1 and p2:
+            val = p2.val+p1.val+carry
+            p.next = ListNode(val%10)
+            carry = val//10
+            p, p1, p2 = p.next, p1.next, p2.next
+
+        # 处理不等长的部分
+        while p1:
+            val = p1.val+carry
+            p.next = ListNode(val%10)
+            carry = val//10
+            p, p1 = p.next, p1.next
+        while p2:
+            val = p2.val+carry
+            p.next = ListNode(val%10)
+            carry = val//10
+            p, p2 = p.next, p2.next
+
+        if carry > 0:
+            p.next = ListNode(carry)
+
+        return headnode.next
+
+
+
+a = stringToListNode("[1,8]")
 b = stringToListNode("[0]")
 prettyPrintLinkedList(Solution().addTwoNumbers(a,b))
 

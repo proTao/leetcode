@@ -7,8 +7,9 @@ class RandomListNode(object):
         self.random = None
     def __repr__(self):
         return str(self.label)+"<"+str(id(self))+">"
+
 class Solution(object):
-    def copyRandomList(self, head):
+    def copyRandomList1(self, head):
         """
         :type head: RandomListNode
         :rtype: RandomListNode
@@ -38,6 +39,38 @@ class Solution(object):
             c = c.next
         print("0k0k0")
         return headnode.next
+
+    def copyRandomList(self, head):
+        # O(1) space complexity
+        # O(n) time complexity
+        if head is None:
+            return head
+        # round 1: create shadow chain
+        p = head
+        while p:
+            p2 = p.next
+            p.next = RandomListNode(p.label)
+            p.next.next = p2
+            p = p2
+        head2 = head.next
+
+        # round 2: handle random link of shadow chain 
+        p = head
+        while p:
+            if p.random is not None:
+                p.next.random = p.random.next
+            p = p.next.next
+        
+        # round 3: split origin chain and shadow chain
+        p = head
+        while p.next.next:
+            p2 = p.next.next
+            p.next.next = p2.next
+            p.next = p2
+            p = p2
+        p.next=None
+
+        return head2
 
 a1 = RandomListNode('a')
 a2 = RandomListNode('b')

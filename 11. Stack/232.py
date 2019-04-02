@@ -26,28 +26,30 @@ class MyQueue:
             return None
         self.length -= 1
 
-        while self.stack1:
-            self.stack2.append(self.stack1.pop())    
-        res = self.stack2.pop()
-        while self.stack2:
-            self.stack1.append(self.stack2.pop())
-        return res
+        if self.stack2:
+            return self.stack2.pop()
+        else:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
         
     def peek(self):
         """
         Get the front element.
         :rtype: int
         """
-        if self.empty():
-            return None
-        return self.stack1[0]
+        if self.stack2:
+            return self.stack2[-1]
+        while self.stack1:
+            self.stack2.append(self.stack1.pop())
+        return self.stack2[-1]
 
     def empty(self):
         """
         Returns whether the queue is empty.
         :rtype: bool
         """
-        return self.length == 0
+        return len(self.stack1) == 0 and len(self.stack2) == 0
 
 
 q = MyQueue()

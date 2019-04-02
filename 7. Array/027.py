@@ -1,58 +1,50 @@
 class Solution:
-    def removeElement(self, nums, target):
+    def removeElement1(self, nums, target):
         """
         :type nums: List[int]
         :type val: int
         :rtype: int
         """
-        print(nums)
-        if len(nums) == 0:
-            return 0
+        slow = 0
+        fast = 0
+        length = len(nums)
+        while fast < length:
+            while slow < length and nums[slow] != target:
+                slow += 1
+            fast = max(fast, slow)
+            while fast < length and nums[fast] == target:
+                fast += 1
+            if fast < length:
+                nums[slow], nums[fast] = nums[fast], nums[slow]
+                slow += 1
+                fast += 1
 
-        new_array_index = 0
-        next_change_index  = len(nums)-1
-        while True:
-            new_array_index = self.findNextTarget(nums, new_array_index, target)
-            next_change_index = self.findNextChange(nums, next_change_index, target)
-            if new_array_index < next_change_index:
-                nums[next_change_index], nums[new_array_index] = nums[new_array_index], nums[next_change_index]
-            
-            print(nums, new_array_index, next_change_index, nums)
-            if(next_change_index <= new_array_index):
-                break
-        return new_array_index
-
-
-    def findNextTarget(self,nums,start,target):
-        i = start
-        while i < len(nums) and nums[i] != target:
-            i += 1
-        return i
-
-    def findNextChange(self,nums,start,target):
-        # zhao dao xia yi ge qian mian de yuan su shi target de wei zhi
-        # if input is 123456734567, start is 2, target is 3
-        # then return 6(the position of the first 7)
-        j = start
-        while j > -1 and nums[j] == target:
-            j -= 1
-        return j
-
-    def same(self, nums, val):
+        return slow
+    
+    def removeElement(self, nums, val):
+        # 上面的方法更清晰的版本
         i = 0;
-        n = len(nums);
-        while (i < n):
-            if (nums[i] == val):
+        for j in range(len(nums)):
+            if nums[j] != val:
+                nums[i] = nums[j]
+                i += 1
+        return i
+    
+    def removeElement2(self, nums, val):
+        """
+        稍微好一点点的解法
+        """
+        i = 0
+        n = len(nums)
+        while i < n:
+            if nums[i] == val:
                 nums[i] = nums[n - 1];
                 n -= 1
-            else:
+            else :
                 i += 1
-        return n;
+        return n
 
-s = Solution()
-nums = [1,2,0,0,3,0,0,3,0]
-target = 0
-res = s.same(nums, target)
-print("res", res)
-print("nums", nums)
 
+if __name__ == "__main__":
+    a = [2,2,3,3]
+    print(Solution().removeElement(a, 3))

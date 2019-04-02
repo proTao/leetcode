@@ -1,6 +1,7 @@
-cache = {}
+from functools import lru_cache
+
 class Solution:
-    def findTargetSumWays(self, nums, S):
+    def findTargetSumWays1(self, nums, S):
         """
         :type nums: List[int]
         :type S: int
@@ -22,8 +23,9 @@ class Solution:
                     self.res += 1
                     cache[(target_sum, current_index)] = True
                     return True
-                cache[(target_sum, current_index)] = False
-                return False
+                else:
+                    cache[(target_sum, current_index)] = False
+                    return False
 
             flag = (len(nums) - current_index)*self.nums[current_index] >= abs(S - target_sum)
             if flag:
@@ -36,10 +38,35 @@ class Solution:
                     cache[(target_sum, current_index)] = res
                     return res
 
-
-
-
-        deeper(S, 0)
+        deeper(S, 1)
         return self.res
 
-print(Solution().findTargetSumWays([1,1,1,1,1],3))
+    def findTargetSumWays(self, nums, S):
+        """
+        第二次做的时候发现上面那个结果不对了是什么鬼
+        """
+        cache = {}
+        @lru_cache(None, True)
+        def dfs(rest_length, target):
+            if rest_length == 1:
+                if target == nums[0] or target == -nums[0]:
+                    if target == 0:
+                        return 2
+                    else:
+                        return 1
+                else:
+                    return 0
+            
+
+            rest_length -= 1
+            lres = dfs(rest_length, target+nums[rest_length])
+            rres = dfs(rest_length, target-nums[rest_length])
+            rest_length += 1
+
+            cache[(rest_length, target)] = lres+rres
+            return lres+rres
+
+        return dfs(len(nums), S)
+
+
+print(Solution().findTargetSumWays([0],0))

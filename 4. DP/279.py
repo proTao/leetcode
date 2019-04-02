@@ -1,3 +1,4 @@
+dp = [None,1]
 class Solution:
     def numSquares(self, n):
         """
@@ -6,15 +7,19 @@ class Solution:
         """
         if n < 0:
             return 0
-
-        dp = [0] * (n+1)
-        dp[1] = 1
-
-        for j in range(2,n+1):
+        if len(dp) > n:
+            return dp[n]
+        for j in range(len(dp),n+1):
             sqrt = int(j**0.5)
             if sqrt ** 2 == j:
-                dp[j] =  1
+                dp.append(1)
             else:
-                dp[j] = min(dp[j-i**2] for i in range(1, sqrt+1)) + 1
+                dp.append(min(dp[j-i**2] for i in range(1, sqrt+1)) + 1)
 
         return dp[-1]
+
+if __name__ == "__main__":
+    print(Solution().numSquares(12))
+    print(dp)
+    print(Solution().numSquares(13))
+    print(dp)

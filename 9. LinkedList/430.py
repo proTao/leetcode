@@ -5,6 +5,7 @@ class Node(object):
         self.prev = prev
         self.next = next
         self.child = child
+        
 class Solution(object):
     def flatten(self, head:Node):
         """

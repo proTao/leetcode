@@ -7,7 +7,6 @@ class Solution(object):
         i=0
         j=0
         length = len(nums)
-        count_duplicates = 0
         
         while i<length:
             while j+1 < length and nums[j] == nums[j+1]:
@@ -15,7 +14,6 @@ class Solution(object):
             nums[i] = nums[j]
             i += 1
             j += 1
-            print(i,j,nums)
             if j==length:
                 return i
             

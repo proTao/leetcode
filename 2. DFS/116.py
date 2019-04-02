@@ -1,6 +1,6 @@
 from treetools import *
 
-class TreeLinkNode:
+class Node:
     def __init__(self, x):
         self.val = x
         self.left = None
@@ -42,3 +42,24 @@ class Solution:
             self.connect(root.right)
 
 
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left, right, next):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+class Solution1:
+    def connect(self, root):
+        if root and root.left and root.right:
+            self.connectCore(root.left, root.right)
+        return root
+    
+    def connectCore(self, left, right):
+        if left.next is None:
+            left.next = right
+            left.right and self.connectCore(left.left, left.right)
+            right.left and self.connectCore(left.right, right.left)
+            right.right and self.connectCore(right.left, right.right)
