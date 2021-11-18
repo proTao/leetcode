@@ -18,6 +18,7 @@ class Solution:
             flag = root.left and inorder(root.left) or root.left is None
 
             print(root.val, self.current)
+            print(root.val)
             if flag and self.current < root.val:
                 self.current = root.val
             else:
